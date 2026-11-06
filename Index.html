@@ -1,586 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Little H Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6f1;--card:#fff;--ink:#17211e;--mut:#5d6b66;--pine:#1f3a34;--butter:#f2c94c;--line:#d9dfd6;--r:14px}
+[data-theme=dark]{--bg:#12201c;--card:#1b2e29;--ink:#eef2ea;--mut:#a3b3ac;--pine:#f2c94c;--butter:#f2c94c;--line:#2e443d}
+[data-theme=butter]{--bg:#f7e7a6;--card:#fff8d9;--ink:#2a2410;--mut:#6b6130;--pine:#2a2410;--butter:#e8b923;--line:#e3cf7a}
+*{box-sizing:border-box}
+html{font-size:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.6 "DM Sans",system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3,.logo{font-family:"Bricolage Grotesque","DM Sans",system-ui,sans-serif;line-height:1.1;margin:0}
+h1{font-size:clamp(2.2rem,6vw,4rem);letter-spacing:-.02em}
+h2{font-size:1.7rem;margin-bottom:.6rem}
+h3{font-size:1.15rem}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
+header{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
+.logo{font-size:1.4rem;font-weight:800;text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.logo i{font-style:normal;background:var(--butter);color:#17211e;width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center}
+nav{display:flex;flex-wrap:wrap;gap:.25rem}
+nav a{padding:.45rem .85rem;border-radius:99px;text-decoration:none;font-weight:500}
+nav a:hover{background:var(--line)}
+nav a.on{background:var(--pine);color:var(--bg)}
+[data-theme=dark] nav a.on{color:#12201c}
+.badge{background:var(--butter);color:#17211e;border-radius:99px;font-size:.75rem;font-weight:700;padding:0 .45rem;margin-left:.4rem}
+.badge:empty{display:none}
+main{width:100%;max-width:1040px;margin:0 auto;padding:2rem 1.25rem 3rem;flex:1}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:center;padding:1rem 0 2.5rem}
+.hero p{font-size:1.15rem;color:var(--mut);max-width:34rem;margin:1rem 0 1.5rem}
+.bigH{aspect-ratio:1;background:var(--butter);color:#17211e;border-radius:50%;display:grid;place-items:center;font:800 min(22vw,13rem)/1 "Bricolage Grotesque",system-ui,sans-serif;max-width:340px;width:100%;justify-self:center}
+.btns{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-block;border:2px solid var(--pine);background:var(--pine);color:var(--bg);padding:.65rem 1.2rem;border-radius:99px;font:600 1rem "DM Sans",system-ui,sans-serif;cursor:pointer;text-decoration:none}
+[data-theme=dark] .btn{color:#12201c}
+.btn:hover{filter:brightness(1.15)}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.sm{padding:.35rem .85rem;font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem;display:flex;flex-direction:column;gap:.4rem}
+.card .em{font-size:2rem}
+.card p{margin:0;color:var(--mut);font-size:.95rem;flex:1}
+.row{display:flex;justify-content:space-between;align-items:center;gap:.75rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 1.5rem}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:.35rem 1rem;font:500 .95rem "DM Sans",system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--pine);color:var(--bg);border-color:var(--pine)}
+[data-theme=dark] .chip[aria-pressed=true]{color:#12201c}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.25rem;margin-bottom:1.25rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.sec{margin-top:2.5rem}
+form{display:grid;gap:.9rem}
+label{display:grid;gap:.25rem;font-weight:500}
+input,select,textarea{font:inherit;padding:.6rem .75rem;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+fieldset{border:1.5px solid var(--line);border-radius:10px;display:flex;gap:1.25rem;padding:.6rem .9rem}
+fieldset label{display:flex;align-items:center;gap:.4rem;font-weight:400}
+fieldset input{width:auto}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.line{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.qty{display:flex;align-items:center;gap:.5rem}
+.qty button{width:2rem;height:2rem;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-size:1.1rem;cursor:pointer}
+.total{font-size:1.2rem;font-weight:700}
+.mut{color:var(--mut)}
+.ok{background:var(--butter);color:#17211e;border-radius:var(--r);padding:1.25rem}
+.empty{color:var(--mut)}
+.hours{list-style:none;padding:0;margin:0}
+.hours li{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid var(--line)}
+footer{border-top:1px solid var(--line);padding:1.25rem;text-align:center;color:var(--mut);font-size:.9rem}
+footer a{margin:0 .5rem}
+#toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);background:var(--pine);color:var(--bg);padding:.6rem 1.2rem;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+[data-theme=dark] #toast{color:#12201c}
+#toast.show{opacity:1}
+@media(max-width:720px){.hero,.two,.cols{grid-template-columns:1fr}.bigH{max-width:180px;justify-self:start;font-size:6rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
-    <title>Little H Cafe | Dashboard</title>
-
-    <style>
-        /* ===== GENERAL STYLES ===== */
-        :root {
-            --cream: #f8f5ef;
-            --white: #ffffff;
-            --brown: #543c2d;
-            --dark-brown: #38271e;
-            --orange: #c77d4b;
-            --light-orange: #f5e6d8;
-            --text: #41382f;
-            --muted: #8b8178;
-            --border: #e9e1d7;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: var(--cream);
-            color: var(--text);
-            min-height: 100vh;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* ===== LAYOUT ===== */
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            width: 250px;
-            background: var(--dark-brown);
-            color: var(--white);
-            padding: 32px 20px;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-
-        .brand {
-            font-size: 25px;
-            font-weight: bold;
-            letter-spacing: -1px;
-            margin-bottom: 6px;
-        }
-
-        .brand span {
-            color: #e4a779;
-        }
-
-        .brand-subtitle {
-            font-size: 12px;
-            color: #c7b5a8;
-            margin-bottom: 42px;
-        }
-
-        .nav-label {
-            color: #b7a397;
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin: 0 0 14px 10px;
-        }
-
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .nav-links a {
-            padding: 13px 12px;
-            border-radius: 8px;
-            color: #e0d4ca;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            background: #654a37;
-            color: #ffffff;
-        }
-
-        .nav-icon {
-            display: inline-block;
-            width: 28px;
-            font-size: 17px;
-            vertical-align: middle;
-        }
-
-        .sidebar-footer {
-            margin-top: auto;
-            padding-top: 30px;
-            color: #b7a397;
-            font-size: 12px;
-            line-height: 1.8;
-        }
-
-        /* ===== MAIN CONTENT ===== */
-        .main {
-            flex: 1;
-            min-width: 0;
-            padding: 35px 45px;
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 36px;
-        }
-
-        .breadcrumb {
-            font-size: 13px;
-            color: var(--muted);
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .profile-icon {
-            width: 38px;
-            height: 38px;
-            background: var(--light-orange);
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            font-size: 19px;
-        }
-
-        /* ===== WELCOME BANNER ===== */
-        .welcome {
-            background: var(--brown);
-            color: white;
-            border-radius: 16px;
-            padding: 38px;
-            margin-bottom: 32px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .welcome::after {
-            content: "☕";
-            position: absolute;
-            right: 45px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 100px;
-            opacity: 0.17;
-        }
-
-        .welcome-tag {
-            color: #efbd95;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 14px;
-        }
-
-        .welcome h1 {
-            font-size: clamp(26px, 3vw, 38px);
-            margin-bottom: 12px;
-            max-width: 600px;
-        }
-
-        .welcome p {
-            color: #e2d4c8;
-            font-size: 14px;
-            line-height: 1.7;
-            max-width: 520px;
-        }
-
-        /* ===== SECTION HEADINGS ===== */
-        .section-heading {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-
-        .section-heading h2 {
-            font-size: 20px;
-        }
-
-        .section-heading p {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 5px;
-        }
-
-        /* ===== NAVIGATION CARDS ===== */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .card {
-            display: block;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(64, 43, 28, 0.08);
-            border-color: #d7b69d;
-        }
-
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--light-orange);
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            font-size: 24px;
-        }
-
-        .card-arrow {
-            color: var(--orange);
-            font-size: 23px;
-        }
-
-        .card h3 {
-            font-size: 17px;
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        .card-link {
-            display: inline-block;
-            margin-top: 18px;
-            color: var(--orange);
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        /* ===== QUICK ACCESS ===== */
-        .quick-access {
-            margin-top: 32px;
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-        }
-
-        .quick-access h2 {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-
-        .quick-access p {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        .quick-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 18px;
-        }
-
-        .quick-links a {
-            border: 1px solid var(--border);
-            border-radius: 7px;
-            padding: 10px 14px;
-            font-size: 12px;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .quick-links a:hover {
-            background: var(--light-orange);
-            border-color: var(--orange);
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            margin-top: 32px;
-            padding: 20px 0;
-            border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        /* ===== MOBILE RESPONSIVENESS ===== */
-        @media (max-width: 850px) {
-            .sidebar {
-                width: 205px;
-                padding: 25px 14px;
-            }
-
-            .main {
-                padding: 28px 24px;
-            }
-
-            .welcome::after {
-                right: 15px;
-                font-size: 75px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .layout {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                padding: 20px;
-            }
-
-            .brand-subtitle {
-                margin-bottom: 22px;
-            }
-
-            .nav-label {
-                margin-bottom: 10px;
-            }
-
-            .nav-links {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .sidebar-footer {
-                display: none;
-            }
-
-            .main {
-                padding: 22px 16px;
-            }
-
-            .topbar {
-                margin-bottom: 24px;
-            }
-
-            .welcome {
-                padding: 26px 22px;
-            }
-
-            .welcome::after {
-                display: none;
-            }
-
-            .cards {
-                grid-template-columns: 1fr;
-            }
-
-            .profile span {
-                display: none;
-            }
-
-            footer {
-                flex-direction: column;
-            }
-        }
-    </style>
+[hidden]{display:none!important}
+</style>
 </head>
+<body data-page="index">
+<main>
+<div id="v-index" hidden>
+<section class="hero">
+<div>
+<h1 id="hi">Good coffee, slow mornings.</h1>
+<p>Little H Cafe is a neighbourhood spot for flat whites, fresh pastries and long lunches. Order ahead or book a table.</p>
+<div class="btns"><a class="btn" href="#menu">See the menu</a><a class="btn alt" href="#orders">Order online</a><a class="btn alt" href="#reservations">Book a table</a></div>
+</div>
+<div class="bigH" aria-hidden="true">H</div>
+</section>
+<section>
+<h2>Today's favourites</h2>
+<div class="grid" id="fav"></div>
+</section>
+<section class="sec two">
+<div class="panel"><h2>Opening hours</h2>
+<ul class="hours"><li><span>Monday to Friday</span><span>6:30am to 3:00pm</span></li><li><span>Saturday</span><span>7:00am to 4:00pm</span></li><li><span>Sunday</span><span>7:00am to 2:00pm</span></li></ul></div>
+<div class="panel"><h2>Find us</h2><p>12 Laneway Street, Brisbane<br>(07) 5550 0123<br>hello@littlehcafe.example</p><p class="mut">Dogs welcome on the courtyard tables.</p></div>
+</section>
+</div>
+<div id="v-menu" hidden>
+<h1>Menu</h1>
+<p class="mut">Everything is made fresh each day. Tap Add to order and check out on the Orders page.</p>
+<div class="chips" id="chips" role="group" aria-label="Menu categories"></div>
+<div class="grid" id="items"></div>
+<div class="btns sec"><a class="btn" href="#orders">View my order</a><a class="btn alt" href="#reservations">Book a table</a></div>
+</div>
+<div id="v-orders" hidden>
+<h1>Your order</h1>
+<div id="done" hidden></div>
+<div id="cartwrap" class="two" style="margin-top:1.5rem">
+<div class="panel"><h2>Items</h2><div id="cart"></div><div class="btns" style="margin-top:1rem"><a class="btn alt sm" href="#menu">Add more from the menu</a></div></div>
+<form class="panel" id="checkout" hidden>
+<h2>Your details</h2>
+<label>Pickup or delivery<select name="type" id="pick"><option>Pickup</option><option>Delivery</option></select></label>
+<label>Name<input name="name" required autocomplete="name"></label>
+<label>Phone<input name="phone" type="tel" required autocomplete="tel"></label>
+<label id="addr" hidden>Delivery address<input name="address" autocomplete="street-address"></label>
+<label>Notes for the kitchen<textarea name="notes" rows="2" placeholder="Allergies, extra hot, oat milk"></textarea></label>
+<button class="btn" type="submit">Place order</button>
+</form>
+</div>
+</div>
+<div id="v-reservations" hidden>
+<h1>Book a table</h1>
+<p class="mut">Tables are held for 15 minutes. For groups over 10, call us on (07) 5550 0123.</p>
+<div class="two" style="margin-top:1.5rem">
+<form class="panel" id="resform">
+<h2>Reservation details</h2>
+<label>Name<input name="rname" id="rname" required autocomplete="name"></label>
+<div class="cols"><label>Date<input type="date" name="date" id="date" required></label><label>Time<select name="time" id="time"></select></label></div>
+<label>Party size<select name="guests" id="guests"></select></label>
+<label>Special requests<textarea name="notes" rows="2" placeholder="High chair, birthday, window seat"></textarea></label>
+<button class="btn" type="submit">Book table</button>
+</form>
+<div class="panel"><h2>Your reservations</h2><div id="reslist"></div></div>
+</div>
+</div>
+<div id="v-settings" hidden>
+<h1>Settings</h1>
+<p class="mut">Changes save automatically and apply on every page.</p>
+<div class="two" style="margin-top:1.5rem">
+<div class="panel"><h2>Display</h2><form onsubmit="return false">
+<label>Your name<input id="sname" placeholder="Used to greet you on the home page" autocomplete="given-name"></label>
+<label>Theme<select id="stheme"><option value="light">Light</option><option value="dark">Dark</option><option value="butter">Butter</option></select></label>
+<label>Text size<select id="ssize"><option value="14">Small</option><option value="16">Medium</option><option value="19">Large</option></select></label>
+</form></div>
+<div class="panel"><h2>Your data</h2><p class="mut">Orders and reservations are stored in this browser only.</p>
+<div class="btns"><button class="btn alt" id="clrcart" type="button">Clear current order</button><button class="btn alt" id="clrres" type="button">Cancel all reservations</button></div>
+<p class="sec"><a class="btn" href="#index">Back to home</a></p></div>
+</div>
+</div>
+</main>
+<script>
+const MENU=[
+{id:1,c:'Coffee',e:'☕',n:'Flat White',d:'Double shot with silky steamed milk.',p:4.8},
+{id:2,c:'Coffee',e:'🧊',n:'Iced Latte',d:'Espresso over ice and cold milk.',p:5.2},
+{id:3,c:'Coffee',e:'🍯',n:'Honey Oat Latte',d:'Oat milk, local honey, a pinch of cinnamon.',p:5.6},
+{id:4,c:'Coffee',e:'🥛',n:'Chai Latte',d:'House-spiced chai with steamed milk.',p:5.0},
+{id:5,c:'Breakfast',e:'🥑',n:'Smashed Avo Toast',d:'Sourdough, feta, lemon, chilli flakes, poached egg.',p:16.5},
+{id:6,c:'Breakfast',e:'🥓',n:'Bacon and Egg Roll',d:'Brioche bun, crispy bacon, fried egg, tomato relish.',p:12.0},
+{id:7,c:'Breakfast',e:'🥣',n:'Berry Granola Bowl',d:'Greek yoghurt, house granola, seasonal berries.',p:13.5},
+{id:8,c:'Lunch',e:'🥪',n:'Chicken Pesto Panini',d:'Grilled chicken, pesto, mozzarella, rocket.',p:15.0},
+{id:9,c:'Lunch',e:'🥗',n:'Roast Pumpkin Salad',d:'Quinoa, pepitas, spinach, tahini dressing.',p:16.0},
+{id:10,c:'Lunch',e:'🧀',n:'Toasted Cheese Melt',d:'Three cheeses on thick sourdough with pickles.',p:11.5},
+{id:11,c:'Bakery',e:'🥐',n:'Butter Croissant',d:'Baked fresh every morning.',p:5.0},
+{id:12,c:'Bakery',e:'🍫',n:'Double Choc Brownie',d:'Fudgy, dark chocolate, sea salt.',p:5.5},
+{id:13,c:'Bakery',e:'🧁',n:'Banana Bread',d:'Toasted with salted butter.',p:6.0},
+{id:14,c:'Drinks',e:'🍵',n:'Matcha Latte',d:'Ceremonial matcha, your choice of milk.',p:5.8},
+{id:15,c:'Drinks',e:'🍊',n:'Fresh Orange Juice',d:'Squeezed to order.',p:6.0},
+{id:16,c:'Drinks',e:'🫖',n:'Loose Leaf Tea Pot',d:'English breakfast, earl grey, peppermint or green.',p:5.0}];
+const $=(s,e=document)=>e.querySelector(s);
+const money=n=>'$'+n.toFixed(2);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const load=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let S=Object.assign({name:'',theme:'light',size:'16'},load('lh_settings',{}));
+let cart=load('lh_cart',{});
+let res=load('lh_res',[]);
 
-<body>
-    <div class="layout">
+function applySettings(){document.documentElement.dataset.theme=S.theme;document.documentElement.style.fontSize=S.size+'px'}
+function toast(t){let e=$('#toast');if(!e){document.body.insertAdjacentHTML('beforeend','<div id="toast" role="status"></div>');e=$('#toast')}
+e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1800)}
+function count(){const n=Object.values(cart).reduce((a,b)=>a+b,0);const c=$('#cnt');if(c)c.textContent=n||''}
+function chrome(){
+const pg=[['index','Home'],['menu','Menu'],['orders','Orders'],['reservations','Reservations'],['settings','Settings']];
+document.body.insertAdjacentHTML('afterbegin',`<header><a class="logo" href="#index"><i>H</i>Little H Cafe</a><nav aria-label="Main">${pg.map(([h,t])=>`<a href="#${h}">${t}${h=='orders'?'<span id="cnt" class="badge"></span>':''}</a>`).join('')}</nav></header>`);
+document.body.insertAdjacentHTML('beforeend',`<footer>${pg.map(([h,t])=>`<a href="#${h}">${t}</a>`).join('')}<br>12 Laneway Street, Brisbane. Open daily from 6:30am.</footer>`);count()}
+function card(m){return `<article class="card"><div class="em" aria-hidden="true">${m.e}</div><h3>${m.n}</h3><p>${m.d}</p><div class="row"><b>${money(m.p)}</b><button class="btn sm" data-add="${m.id}">Add to order</button></div></article>`}
+document.addEventListener('click',e=>{
+const a=e.target.closest('[data-add]');
+if(a){const id=a.dataset.add;cart[id]=(cart[id]||0)+1;save('lh_cart',cart);count();toast(MENU.find(m=>m.id==id).n+' added to your order')}
+const q=e.target.closest('[data-q]');
+if(q){const id=q.dataset.id;cart[id]=(cart[id]||0)+Number(q.dataset.q);if(cart[id]<=0)delete cart[id];save('lh_cart',cart);count();renderCart()}
+const d=e.target.closest('[data-del]');
+if(d){res=res.filter(r=>r.id!=d.dataset.del);save('lh_res',res);renderRes();toast('Reservation cancelled')}});
 
-        <!-- SIDEBAR NAVIGATION -->
-        <aside class="sidebar">
-
-            <a href="index.html" class="brand">
-                Little <span>H</span> Cafe
-            </a>
-
-            <p class="brand-subtitle">Cafe Management Portal</p>
-
-            <p class="nav-label">Main Menu</p>
-
-            <nav class="nav-links">
-                <a href="index.html" class="active">
-                    <span class="nav-icon">⌂</span> Dashboard
-                </a>
-
-                <a href="orders.html">
-                    <span class="nav-icon">▤</span> Orders
-                </a>
-
-                <a href="reservations.html">
-                    <span class="nav-icon">▦</span> Reservations
-                </a>
-
-                <a href="menu.html">
-                    <span class="nav-icon">☕</span> Menu
-                </a>
-
-                <a href="settings.html">
-                    <span class="nav-icon">⚙</span> Settings
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <p>Little H Cafe</p>
-                <p>Simple moments, great coffee.</p>
-            </div>
-
-        </aside>
-
-        <!-- MAIN DASHBOARD -->
-        <main class="main">
-
-            <header class="topbar">
-                <p class="breadcrumb">Home / Dashboard</p>
-
-                <div class="profile">
-                    <div class="profile-icon">☕</div>
-                    <span>Cafe Management</span>
-                </div>
-            </header>
-
-            <!-- WELCOME BANNER -->
-            <section class="welcome">
-                <p class="welcome-tag">Welcome to Little H Cafe</p>
-
-                <h1>Your cafe, all in one place.</h1>
-
-                <p>
-                    Manage your orders, organise reservations,
-                    update your menu and customise your cafe
-                    settings from one simple dashboard.
-                </p>
-            </section>
-
-            <!-- MAIN NAVIGATION CARDS -->
-            <section>
-                <div class="section-heading">
-                    <div>
-                        <h2>Manage Your Cafe</h2>
-                        <p>Choose a section to get started.</p>
-                    </div>
-                </div>
-
-                <div class="cards">
-
-                    <a href="orders.html" class="card">
-                        <div class="card-top">
-                            <div class="card-icon">🧾</div>
-                            <span class="card-arrow">↗</span>
-                        </div>
-
-                        <h3>Orders</h3>
-
-                        <p>
-                            View and manage customer orders,
-                            track order progress and access
-                            order information.
-                        </p>
-
-                        <span class="card-link">Manage Orders →</span>
-                    </a>
-
-                    <a href="reservations.html" class="card">
-                        <div class="card-top">
-                            <div class="card-icon">📅</div>
-                            <span class="card-arrow">↗</span>
-                        </div>
-
-                        <h3>Reservations</h3>
-
-                        <p>
-                            View bookings, check reservation
-                            details and organise upcoming
-                            customer visits.
-                        </p>
-
-                        <span class="card-link">View Reservations →</span>
-                    </a>
-
-                    <a href="menu.html" class="card">
-                        <div class="card-top">
-                            <div class="card-icon">☕</div>
-                            <span class="card-arrow">↗</span>
-                        </div>
-
-                        <h3>Menu</h3>
-
-                        <p>
-                            Browse cafe items, view prices
-                            and manage the food and drinks
-                            offered by Little H Cafe.
-                        </p>
-
-                        <span class="card-link">Open Menu →</span>
-                    </a>
-
-                    <a href="settings.html" class="card">
-                        <div class="card-top">
-                            <div class="card-icon">⚙️</div>
-                            <span class="card-arrow">↗</span>
-                        </div>
-
-                        <h3>Settings</h3>
-
-                        <p>
-                            Access cafe preferences, update
-                            configuration and customise
-                            your management portal.
-                        </p>
-
-                        <span class="card-link">Open Settings →</span>
-                    </a>
-
-                </div>
-            </section>
-
-            <!-- QUICK ACCESS TO PROJECT FILES -->
-            <section class="quick-access">
-                <h2>Quick Access</h2>
-
-                <p>
-                    Jump straight to one of your cafe's
-                    management pages.
-                </p>
-
-                <div class="quick-links">
-                    <a href="orders.html">Orders</a>
-                    <a href="reservations.html">Reservations</a>
-                    <a href="menu.html">Menu</a>
-                    <a href="settings.html">Settings</a>
-                </div>
-            </section>
-
-            <!-- FOOTER -->
-            <footer>
-                <span>© 2026 Little H Cafe</span>
-                <span>Made for your daily cafe operations.</span>
-            </footer>
-
-        </main>
-    </div>
+const pages={
+index(){
+const hi=S.name?`Welcome back, ${esc(S.name)}.`:'Good coffee, slow mornings.';
+$('#hi').innerHTML=hi;
+$('#fav').innerHTML=MENU.filter(m=>[1,5,12].includes(m.id)).map(card).join('')},
+menu(){
+const cats=['All',...new Set(MENU.map(m=>m.c))];
+$('#chips').innerHTML=cats.map((c,i)=>`<button class="chip" aria-pressed="${i==0}" data-c="${c}">${c}</button>`).join('');
+const show=c=>{$('#items').innerHTML=MENU.filter(m=>c=='All'||m.c==c).map(card).join('');
+document.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c==c))};
+$('#chips').onclick=e=>{const b=e.target.closest('.chip');if(b)show(b.dataset.c)};show('All')},
+orders(){$('#cartwrap').hidden=false;$('#done').hidden=true;renderCart();
+$('#pick').onchange=e=>{$('#addr').hidden=e.target.value!='Delivery';$('#addr input').required=e.target.value=='Delivery'};
+$('#checkout').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target);
+const no='LH-'+Math.floor(1000+Math.random()*9000);const total=cartTotal();
+$('#cartwrap').hidden=true;
+$('#done').hidden=false;
+$('#done').innerHTML=`<div class="ok"><h2>Thanks, ${esc(f.get('name'))}. Order ${no} is in.</h2><p>${f.get('type')=='Pickup'?'Your order will be ready for pickup in about 15 minutes.':'Your order will arrive in about 30 minutes at '+esc(f.get('address'))+'.'} Total: <b>${money(total)}</b>, pay when you ${f.get('type')=='Pickup'?'collect':'receive it'}.</p><div class="btns"><a class="btn" href="#menu">Order something else</a><a class="btn alt" href="#index">Back to home</a></div></div>`;
+cart={};save('lh_cart',cart);count()}},
+reservations(){
+const t=new Date();const iso=new Date(t-t.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+$('#date').min=iso;$('#date').value=iso;
+let o='';for(let h=7;h<=20;h++)for(const m of['00','30'])if(!(h==20&&m=='30'))o+=`<option>${h>12?h-12:h}:${m} ${h>=12?'pm':'am'}</option>`;
+$('#time').innerHTML=o;$('#guests').innerHTML=[...Array(10)].map((_,i)=>`<option value="${i+1}">${i+1} ${i?'people':'person'}</option>`).join('');
+if(S.name)$('#rname').value=S.name;
+$('#resform').onsubmit=e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));
+res.push({id:Date.now(),...f});res.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));save('lh_res',res);renderRes();
+toast('Table booked for '+f.guests+' on '+f.date);e.target.notes.value=''};renderRes()},
+settings(){
+$('#sname').value=S.name;$('#stheme').value=S.theme;$('#ssize').value=S.size;
+const upd=()=>{S={name:$('#sname').value.trim(),theme:$('#stheme').value,size:$('#ssize').value};save('lh_settings',S);applySettings();toast('Settings saved')};
+['sname','stheme','ssize'].forEach(i=>$('#'+i).onchange=upd);
+$('#clrcart').onclick=()=>{cart={};save('lh_cart',cart);count();toast('Order cleared')};
+$('#clrres').onclick=()=>{if(confirm('Cancel all your reservations?')){res=[];save('lh_res',res);toast('Reservations cancelled')}}}
+};
+function cartTotal(){return Object.entries(cart).reduce((s,[id,q])=>s+q*MENU.find(m=>m.id==id).p,0)}
+function renderCart(){
+const ids=Object.keys(cart);const el=$('#cart');
+if(!ids.length){el.innerHTML='<p class="empty">Your order is empty. Add something from the menu to get started.</p><a class="btn" href="#menu">Browse the menu</a>';$('#checkout').hidden=true;return}
+$('#checkout').hidden=false;
+el.innerHTML=ids.map(id=>{const m=MENU.find(x=>x.id==id);return `<div class="line"><div>${m.e} <b>${m.n}</b><div class="mut">${money(m.p)} each</div></div><div class="qty"><button data-q="-1" data-id="${id}" aria-label="Remove one ${m.n}">−</button><span>${cart[id]}</span><button data-q="1" data-id="${id}" aria-label="Add one ${m.n}">+</button></div></div>`}).join('')+`<div class="line total"><span>Total</span><span>${money(cartTotal())}</span></div><p class="mut">Prices include GST.</p>`}
+function renderRes(){
+const el=$('#reslist');if(!el)return;
+el.innerHTML=res.length?res.map(r=>`<div class="line"><div><b>${esc(r.date)} at ${esc(r.time)}</b><div class="mut">${esc(r.rname)}, ${r.guests} ${r.guests==1?'person':'people'}${r.notes?'. '+esc(r.notes):''}</div></div><button class="btn alt sm" data-del="${r.id}">Cancel</button></div>`).join(''):'<p class="empty">No reservations yet. Book a table using the form.</p>'}
+applySettings();
+const PAGES={index:'Home',menu:'Menu',orders:'Your order',reservations:'Reservations',settings:'Settings'};
+function route(){let p=location.hash.slice(1);if(!PAGES[p])p='index';
+document.body.dataset.page=p;
+Object.keys(PAGES).forEach(x=>$('#v-'+x).hidden=x!=p);
+document.querySelectorAll('nav a').forEach(a=>{const on=a.getAttribute('href')=='#'+p;a.classList.toggle('on',on);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
+pages[p]();document.title=PAGES[p]+' | Little H Cafe';window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);
+document.addEventListener('DOMContentLoaded',()=>{chrome();route()});
+</script>
 </body>
 </html>
